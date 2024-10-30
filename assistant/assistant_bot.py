@@ -135,11 +135,11 @@ def main():
                 print(get_phone(args, book))
             case "all":
                 print(get_all_contacts(book))
-            case "add-bday":
+            case "add-birthday":
                 print(add_birthday(args, book))
-            case "show-bday":
+            case "show-birthday":
                 print(show_birthday(args, book))
-            case "bdays":
+            case "birthdays":
                 print(birthdays(book))
             case "help":
                 print(help())
