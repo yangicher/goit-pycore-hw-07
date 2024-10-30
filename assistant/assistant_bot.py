@@ -21,18 +21,9 @@ def input_error(func):
         try:
             return func(*args, **kwargs)
         except ValueError:
-            match func_name:
-                    case "add_contact":
-                        return "Enter the argument for the command"
-                    case "change_contact":
-                        return "Enter the argument for the command"
-                    case "get_phone":
-                        return "Enter the argument for the command"
-                    case _:
-                        return "Invalid input."
-            return "Give me name and phone please."
+            return f"ValueError in '{func_name}'."
         except IndexError:
-                return f"IndexError in '{func_name}'"
+            return f"IndexError in '{func_name}'."
         except KeyError:
             return f"KeyError in '{func_name}' Contact {args[0]} not found."
 
@@ -99,7 +90,7 @@ def get_all_contacts(book: AddressBook):
 def add_birthday(args, book : AddressBook):
     name, birthday = args
     record = book.find(name)
-    if record != None:
+    if record:
         record.add_birthday(birthday)
         print(f"Birthday {birthday} added to {name}.")
     else:
@@ -119,16 +110,15 @@ def show_birthday(args, book: AddressBook):
 def birthdays(book : AddressBook):
     upcoming = book.get_upcoming_birthdays()
     if len(upcoming) > 0:
-        print("Upcoming birthdays:")
-        for birthday in upcoming:
-            print(f"{birthday['name']}: {birthday['next_upcoming_birthday']}")
+        return upcoming
     else:
-        print("No upcoming birthdays.")
+        return "No upcoming birthdays."
 
 def main():
     book = AddressBook()
     print("Welcome to the assistant bot!")
     while True:
+
         user_input = input("Enter a command: ")
         command, *args = parse_input(user_input)
         match command:
@@ -145,11 +135,11 @@ def main():
                 print(get_phone(args, book))
             case "all":
                 print(get_all_contacts(book))
-            case "add-birtday":
+            case "add-bday":
                 print(add_birthday(args, book))
-            case "show-birtday":
+            case "show-bday":
                 print(show_birthday(args, book))
-            case "birtdays":
+            case "bdays":
                 print(birthdays(book))
             case "help":
                 print(help())

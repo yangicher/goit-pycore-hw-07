@@ -11,7 +11,8 @@ class Field:
 class Birthday(Field):
     def __init__(self, value):
         try:
-            self.value = datetime.strptime(value, "%d.%m.%Y")
+            res = datetime.strptime(value, "%d.%m.%Y")
+            self.value = res
         except ValueError:
             raise ValueError("Invalid date format. Use DD.MM.YYYY")
         
@@ -38,7 +39,7 @@ class Record:
         self.birthday = None
 
     def __str__(self):
-        return f"Contact name: {self.name}, phones: {'; '.join(p for p in self.phones)}, bday: {self.birthday}"
+        return f"Contact name: {self.name}, phones: {'; '.join(p for p in self.phones)}, bday: {self.birthday.value.date()}"
     
     def get_all_phones(self):
         return self.phones
@@ -67,6 +68,7 @@ class Record:
     
     def add_birthday(self, birthday):
         self.birthday = Birthday(birthday)
+        print(self.birthday)
 
     def show_birthdays(self):
         return self.birthday

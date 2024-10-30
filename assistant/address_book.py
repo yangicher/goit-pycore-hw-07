@@ -17,11 +17,7 @@ class AddressBook(UserDict):
             print(f"Contact with name: {record.name} already exists")
 
     def find(self, name: str):
-        if not self.data.get(name):
-            print(f"Can't find contact {name}")
-            return None
-        else:
-            return self.data[name]
+        return self.data.get(name, None)
 
     def delete(self, name: str):
         result = self.data.pop(name)
@@ -33,8 +29,8 @@ class AddressBook(UserDict):
         days_in_week = 7
         today = datetime.now()
 
-        for user in self.data.values:
-            user_birthday = datetime.strptime(user["birthday"], "%d.%m.%Y")
+        for user in self.data.values():
+            user_birthday = user.birthday.value
             birthday_this_year = user_birthday.date().replace(year=today.year)
             
             if (birthday_this_year < today.date()):
@@ -46,7 +42,7 @@ class AddressBook(UserDict):
                 weekday = birthday_this_year.weekday()
                 if(weekday == 6 or weekday == 5):
                     begin_week = birthday_this_year + timedelta(days = days_in_week - weekday)
-                    upcoming_birthdays.append(f"name: {user["name"]}, congratulation_date: {begin_week.strftime("%d.%m.%Y")}")
+                    upcoming_birthdays.append(f"name: {user.name}, congratulation_date: {begin_week.strftime("%d.%m.%Y")}")
                 else:
-                    upcoming_birthdays.append(f"name: {user["name"]}, congratulation_date: {birthday_this_year.strftime("%d.%m.%Y")}")
+                    upcoming_birthdays.append(f"name: {user.name}, congratulation_date: {birthday_this_year.strftime("%d.%m.%Y")}")
         return upcoming_birthdays
